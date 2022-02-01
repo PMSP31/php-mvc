@@ -2,27 +2,24 @@
 
 class Siswa_model
 {
-    private $dbh; //database handler
-    private $stmt;
+    private $table = 'siswa';
+    private $db;
 
     public function __construct()
     {
-        // data source name
-        $dsn = 'mysql:host=localhost;dbname=phpmvc';
-        try {
-            $this->dbh = new PDO($dsn, 'paul', 'paul123');
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        $this->db = new Database;
     }
 
     public function getAllSiswa()
     {
-        // query
-        $this->stmt = $this->dbh->prepare('SELECT * FROM siswa');
-        // execution
-        $this->stmt->execute();
-        // data to array_assoc
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->db->query("SELECT * FROM $this->table ");
+        return $this->db->resultSet();
+    }
+
+    public function getSiswaById($id)
+    {
+        $this->db->query("SELECT * FROM $this->table WHERE id=:id");
+        $this->db->bind('id', $id);
+        return $this->db->single();
     }
 }
