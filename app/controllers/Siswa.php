@@ -19,4 +19,30 @@ class Siswa extends Controller
         $this->view('siswa/detail', $data);
         $this->view('templates/footer');
     }
+
+    public function tambah()
+    {
+        if ($this->model('Siswa_model')->addSiswa($_POST) > 0) {
+            Flasher::setFlash('BERHASIL!', 'Ditambahkan', 'success');
+            header('Location:' . URL . '/siswa');
+            exit;
+        } else {
+            Flasher::setFlash('GAGAL!', 'Ditambahkan', 'danger');
+            header('Location:' . URL . '/siswa');
+            exit;
+        }
+    }
+
+    public function delete($id)
+    {
+        if ($this->model('Siswa_model')->deleteSiswa($id) > 0) {
+            Flasher::setFlash('BERHASIL!', 'Dihapus', 'success');
+            header('Location:' . URL . '/siswa');
+            exit;
+        } else {
+            Flasher::setFlash('GAGAL!', 'Dihapus', 'danger');
+            header('Location:' . URL . '/siswa');
+            exit;
+        }
+    }
 }
