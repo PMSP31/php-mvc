@@ -6,20 +6,36 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">
+        <div class="col-lg-6 mb-3">
+            <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#formModal">
                 Tambah Data Siswa
             </button>
+        </div>
+    </div>
 
-            <br>
-            <br>
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="<?= URL; ?>/siswa/search" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Cari Siswa.." name="keyword" id="keyword" autocomplete="off">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" id="search-btn">Cari</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
+
+    <div class="row">
+        <div class="col-lg-6">
             <h3>Daftar Siswa</h3>
             <ul class="list-group">
                 <?php foreach ($data['siswa'] as $siswa) : ?>
                     <li class="list-group-item">
                         <?= $siswa["nama"]; ?>
                         <a href="<?= URL; ?>/siswa/delete/<?= $siswa["id"] ?>" class="badge badge-danger float-right mx-1" onclick="return confirm('Apakah Anda Yakin');">Delete</a>
+                        <a href="<?= URL; ?>/siswa/edit/<?= $siswa["id"] ?>" class="badge badge-success float-right mx-1 edit-btn" data-toggle="modal" data-target="#formModal" data-id="<?= $siswa["id"] ?>">Edit</a>
                         <a href="<?= URL; ?>/siswa/detail/<?= $siswa["id"] ?>" class="badge badge-primary float-right mx-1">Detail</a>
                     </li>
                 <?php endforeach; ?>
@@ -40,6 +56,7 @@
             </div>
             <div class="modal-body">
                 <form action="<?= URL; ?>/siswa/tambah" method="post">
+                    <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <label for="nama">Nama :</label>
                         <input type="text" class="form-control" id="nama" placeholder="Masukan Nama" name="nama">

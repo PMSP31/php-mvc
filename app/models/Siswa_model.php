@@ -48,4 +48,34 @@ class Siswa_model
 
         return $this->db->rowCount();
     }
+
+    public function editSiswa($data)
+    {
+        $query = "UPDATE siswa SET
+                    nama = :nama,
+                    nis = :nis,
+                    email = :email,
+                    jurusan = :jurusan
+                    WHERE id = :id";
+
+        $this->db->query($query);
+        $this->db->bind('nama', $data['nama']);
+        $this->db->bind('nis', $data['nis']);
+        $this->db->bind('email', $data['email']);
+        $this->db->bind('jurusan', $data['jurusan']);
+        $this->db->bind('id', $data['id']);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+    public function searchSiswa()
+    {
+        $keyword = $_POST['keyword'];
+        $query = "SELECT * FROM siswa WHERE nama LIKE :keyword";
+        $this->db->query($query);
+        $this->db->bind('keyword', "%$keyword%");
+        return $this->db->resultSet();
+    }
 }
